@@ -1,0 +1,52 @@
+<?php
+include "head.html";
+?>
+
+<table align = center border = 1>
+<tr>
+		<td width="60%" valign="top"><form method=post action=change2.php>
+      <font size="4">&nbsp;&nbsp;&nbsp;Дата:<br>&nbsp;&nbsp;&nbsp;<INPUT type=text class=bg name="Date3">
+		<IMG id="DATE3Trigger" src="K.files/calend.gif" style="cursor:hand">
+		<SCRIPT type=text/javascript>
+				Calendar.setup({
+				inputField : "Date3", // ID of the input field
+				ifFormat   : "%d.%m.%Y", // the date format
+				button     : "DATE3Trigger", // ID of the button
+				showsTime  : true,
+				timeFormat :24
+				});	
+			</SCRIPT>
+</td>
+</tr>
+</table>
+<table align = center border = 1>
+ <tr><td>№ ЭЧК</td><td>Место работы</td><td>План нач</td><td>План оконч</td><td>Всего</td><td>Работа</td><td>Техника</td></tr>
+ 
+  <tr><td><INPUT type=text name=echknum size=2></td>
+ <td><textarea rows=6 name=mesto cols=25></textarea></td>
+ <td><INPUT type=text name=time1 size=2></td>
+ <td><INPUT type=text name=time2 size=2></td>
+ <td><INPUT type=text name=time3 size=2></td>
+ <td><textarea rows=8 name=work cols=30></textarea></td>
+ <td><textarea rows=3 name=adm cols=10></textarea></td>
+ </tr>
+ </table><br>
+ 
+ <table colspan=0 align=center border = 1>
+<tr><td>Производитель</td><td>№ наряда</td><td>Начало (факт)</td><td>Окончание (Факт)</td></tr>
+<tr>
+<td><textarea rows=4 name=proizvod cols=25></textarea></td>
+<td><INPUT type=text name=narnum size=2></td>
+ <td><INPUT type=text name=time4 size=2><b>:</b><INPUT type=text name=time5 size=2></td>
+ <td><INPUT type=text name=time6 size=2><b>:</b><INPUT type=text name=time7 size=2></td>
+ </tr></table>
+ 
+ <table align=center>
+ <tr><td>
+ <INPUT TYPE=submit VALUE='СОХРАНИТЬ'>
+ </form>
+ </td></tr></table>
+
+
+</body>
+</html>

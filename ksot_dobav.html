@@ -1,0 +1,39 @@
+<?php
+include "config.php";
+//echo "<br>";
+?>
+<?php
+ include "ksot_zamech.php";
+?>
+<table align = center border = 1>
+<tr><td >№</td><td >ЦЕХ</td><td >ФИО лица, выявившего нарушение.</td><td >Содержание выявленного нарушения</td><td >Дата начала</td><td >Отметка об<br>устранении</td><td >Ответственные за устранение.</td><td>Выбор цвета</td></tr>
+<tr>
+	<td>
+	<form method=post action=ksot_dobav.php><INPUT TYPE=hidden NAME='i' VALUE='0' size=3>
+	</td>
+	<td>
+	<SELECT NAME=stanc>
+	<OPTION>
+	<?php
+	echo "$ceha";
+	?>
+	</td>
+	 <td><textarea rows=3 name=obekt cols=20></textarea></td>
+	 <td><textarea rows=4 name=neispr cols=40></textarea></td>
+	 <td><textarea rows=4 cols=10 name=date1></textarea></td>
+	 <td><textarea rows=4 cols=10 name=date2></textarea></td>
+	 <td>
+	 <textarea rows=4 cols=20 name=otv></textarea>
+	</td>
+	 <td>
+	 <INPUT TYPE=checkbox NAME=slujba> Желтый
+	 </td>
+ </tr>
+ </table>
+ <table align = center border = 0><tr>
+ <td>
+<INPUT TYPE=submit VALUE='СОХРАНИТЬ'> 
+ </form>
+</td></tr>
+</table>
+ <br>

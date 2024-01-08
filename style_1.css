@@ -1,0 +1,166 @@
+/*for technics*/
+mark{
+	background: #ff3333;
+	padding: 0 3px;
+}
+
+
+
+/*для arm_nach_ceh_viks.php -----------------------------------  ---*/
+#calendar{
+	z-index: 99 !important;
+}
+
+#pole_viks{
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+#frame {
+	background-color: #afbbaa;
+	width: 100%;
+	min-height: 105px;
+	float: inherit;
+	align-content: center;
+	overflow: hidden;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+#frame p{
+		margin-top: 5px;
+	margin-left: 5px;
+}
+
+#frame table{
+	align: center;
+	border-collapse: collapse;
+	text-align: center;
+	vertical-align: center;
+}
+#frame tr {
+	height: 30px;
+	vertical-align: center;
+}
+#frame td {
+	border: 1px solid #000000;
+	text-align: left;
+	vertical-align: justify;
+}
+#frame_in1 {
+	background-color: #4e56a5;
+	width: 48%;
+	min-height: 45px;
+	float: left; 
+	position: static;
+	overflow: hidden;
+	text-align: center;
+	margin-left: 1%;
+	margin-top: 5px;
+}
+#frame_in1 p{
+	text-align: left;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+#frame_in0 {
+	background-color: #51949b;
+	width: 100%;
+	min-height: 10px;
+	float: inherit;
+	position: static;
+	overflow: auto;
+	align-content: center;
+/*	margin-bottom: 5px;*/
+}
+
+#frame_in0 p{
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+#frame_in01{
+	text-align: left;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+#frame_in02 {
+	background-color: #4fa44f;
+	width: 48%;
+	min-height: 45px;
+	float: left; 
+	position: relative;
+/*	overflow: auto;*/
+	text-align: center;
+	margin-left: 1%;
+	margin-top: 5px;
+}
+
+#frame_in03 {
+	background-color: #ce248e;
+	float: left;
+    position: relative;
+    overflow: auto;
+}
+
+#menu_zam_2019{
+	float: inherit;
+}
+#menu_zam_2019_in{
+	float: left;
+    position: relative;
+    overflow: auto;
+}
+#menu_zam_2019_in2{
+	float: left;
+    position: relative;
+    margin-left: 10px;
+    overflow: auto;
+    background-color: #72cdcd;
+    border-radius: 5px;
+}
+
+#menu_zam_2019_in2 form{
+	margin-top: 5px;
+}
+
+#menu_eu83_2020{
+	float: inherit;
+}
+#menu_eu83_2020_in{
+	float: left;
+    position: relative;
+    overflow: auto;
+}
+#menu_eu83_2020_in2{
+	float: left;
+    position: relative;
+    margin-left: 10px;
+    overflow: auto;
+/*    background-color: #72cdcd;*/
+    border-radius: 5px;
+}
+
+#cont_left{
+	float: left;
+	margin-left: 10px;
+	background-color: #99ffcc;
+	align: left;
+	text-align: left;
+	width: 400px;
+	min-height: 200px;
+	overflow: auto;
+}
+#cont_bottom{
+	float: inherit;
+	margin-left: 10px;
+	background-color: #99ffcc;
+	align: left;
+	text-align: center;
+	width: 400px;
+	min-height: 200px;
+	overflow: auto;
+}
+/* -----------------------------------  ---*/
+

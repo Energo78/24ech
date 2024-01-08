@@ -1,0 +1,59 @@
+<?php
+ini_set('display_errors',1);
+Error_Reporting(E_ALL & ~E_NOTICE);
+
+$titl = "ЭЧЦ-ОКНА";
+include "head.html";
+include "config.php";
+
+echo "<br>";
+$d1 = date("d.m.Y");
+include "date_functions.php";
+include "ceha.php";
+?>
+<div style='clear:both;'></div>
+	<div id='bg1'>
+	
+	<div id='cont33' style='background-color:#afb632;'>
+	
+	<?php
+			echo"
+			<!-- Форма для разбивки блоков даных из АС АПВО -->
+			
+			<br>ВВОД ДАННЫХ из АСАПВО(окна):<br>
+			<form method='post' action='okna_1.php'>
+					<p align='center'>
+					<textarea rows='8' name='spisok' cols='50'></textarea>
+					<p align='center'>
+					<p align='center'>
+					<font size='4'>  
+					<p align='center'>Дата:<br>&nbsp;&nbsp;&nbsp;
+					<input name='date3' type='text' value='$datenext' size='10' onfocus='this.select();lcs(this)'onclick='event.cancelBubble=true;this.select();lcs(this)'>
+					<INPUT TYPE=submit NAME=button1 VALUE='Разбить!'>
+			</form>
+			";
+	?>
+	
+	</div>
+	</div>
+	
+
+	
+
+	<div style='clear:both;'></div>
+	</br>
+	
+	
+	</div>
+	
+	<!-- <div id='cont31'> -->
+	
+	<!-- </div> -->
+	
+	</div>
+
+
+
+
+</body>
+</html>

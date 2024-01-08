@@ -1,0 +1,277 @@
+Многие новички до сих пор попадают в тупик при написании простейшей аутентификации в PHP. На Тостере с завидной регулярностью попадаются вопросы о том, как сравнить сохраненный пароль с паролем полученным из формы логина. Здесь будет краткая статья-туториал на эту тему.
+
+Disclaimer: статья рассчитана на совершенных новичков. Умудрённые опытом разработчики ничего нового здесь не найдут, но могут указать на возможные недочёты =).
+
+Для написания системы аутентификации будем использовать базу данных MySQL/MariaDB, PHP, PDO, функции для работы с паролями, для построения интерфейса возьмём bootstrap.
+
+Для начала создадим базу. Пусть она называется php-auth-demo. В новой базе создадим таблицу пользователей users:
+
+CREATE TABLE `users` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `username` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+    `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `username` (`username`)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+Создадим конфиг с данными для подключения к базе.
+
+Имейте ввиду, что в реальном проекте к конфигам не должно быть доступа из браузера, и они не должны быть включены в систему контроля версий, во избежание компрометации учетных данных.
+
+config.php
+
+<?php
+
+return [
+    'db_name' => 'php-auth-demo',
+    'db_host' => '127.0.0.1',
+    'db_user' => 'mysql',
+    'db_pass' => 'mysql',
+];
+И сделаем "загрузочный" файл, который будем подключать вначале всех остальных файлов.
+
+В реальных проектах обычно используется автозагрузка необходимых файлов. Но этот момент выходит за рамки статьи, и в демо-примере мы обойдёмся простым подключением.
+
+В "загрузочном" файле мы будем инициализировать сессию и объявим некоторые функции-помощники.
+
+boot.php
+
+<?php
+
+// Инициализируем сессию
+session_start();
+
+// Простой способ сделать глобально доступным подключение в БД
+function pdo(): PDO
+{
+    static $pdo;
+
+    if (!$pdo) {
+        $config = include __DIR__.'/config.php';
+        // Подключение к БД
+        $dsn = 'mysql:dbname='.$config['db_name'].';host='.$config['db_host'];
+        $pdo = new PDO($dsn, $config['db_user'], $config['db_pass']);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    return $pdo;
+}
+Функция pdo() даст нам доступ к объекту PDO в любом месте нашего кода.
+
+Далее нам нужна форма регистрации. Разместим её прямо в файле index.php.
+
+<form method="post" action="do_register.php">
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input type="text" class="form-control" id="username" name="username" required>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>
+Здесь всё просто: два поля, кнопка и форма, отправляющая запрос на файл do_register.php методом POST. Процесс регистрации пользователя опишем в файле do_register.php.
+
+<?php
+
+require_once __DIR__.'/boot.php';
+
+// Проверим, не занято ли имя пользователя
+$stmt = pdo()->prepare("SELECT * FROM `users` WHERE `username` = :username");
+$stmt->execute(['username' => $_POST['username']]);
+if ($stmt->rowCount() > 0) {
+    flash('Это имя пользователя уже занято.');
+    header('Location: /'); // Возврат на форму регистрации
+    die; // Остановка выполнения скрипта
+}
+
+// Добавим пользователя в базу
+$stmt = pdo()->prepare("INSERT INTO `users` (`username`, `password`) VALUES (:username, :password)");
+$stmt->execute([
+    'username' => $_POST['username'],
+    'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+]);
+
+header('Location: login.php');
+В самом начале подключим наш "загрузчик".
+
+Потом проверим, не занято ли имя пользователя. Для этого сделаем выборку из таблицы указав в условии полученное из формы имя пользователя. Обратите внимание, для запросов здесь и далее мы будем использовать подготовленные запросы, что обезопасит нас от SQL-инъекций. Для этого в тексте SQL-запроса мы указываем специальные плейсхолдеры, а при выполнении ассоциируем с ними ненадёжные данные (ненадёжными данными следует считать всё, что приходит из вне – $_GET, $_POST, $_REQUEST, $_COOKIE). После выполнения запроса мы просто проверим количество возвращённых строк. Если их больше нуля, то имя пользователя уже занято. В этом случае мы выведем сообщение и вернём пользователя на форму регистрации.
+
+Я написал "больше нуля", но по факту, из-за того, что поле username в таблице уникальное, rowCount() может нам вернуть лишь два возможных значения: 0 и 1.
+
+В приведённом выше коде мы использовали функцию flash(). Данная функция предназначена для "одноразовых" сообщений. Если вызвать её со строковым параметром, то она сохранит эту строку в сессии, а если вызвать без параметров, то выведет из сессии сохранённое сообщение и затем удалит его в сессии. Добавим эту функцию в файл boot.php.
+
+function flash(?string $message = null)
+{
+    if ($message) {
+        $_SESSION['flash'] = $message;
+    } else {
+        if (!empty($_SESSION['flash'])) { ?>
+          <div class="alert alert-danger mb-3">
+              <?=$_SESSION['flash']?>
+          </div>
+        <?php }
+        unset($_SESSION['flash']);
+    }
+}
+А также вызовем её нa форме регистрации, для вывода возможных сообщений.
+
+<h1 class="mb-5">Registration</h1>
+
+<?php flash(); ?>
+
+<form method="post" action="do_register.php">
+    <!-- ... -->
+</form>
+На данном этапе простейший функционал регистрации нового пользователя готов.
+
+Если мы посмотрим код регистрации выше, то увидим, что в случае успешной регистрации, мы перенаправляем пользователя на страницу логина. Самое время ее написать.
+
+login.php
+
+<h1 class="mb-5">Login</h1>
+
+<?php flash() ?>
+
+<form method="post" action="do_login.php">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a class="btn btn-outline-primary" href="index.php">Register</a>
+    </div>
+</form>
+В виду простоты примера, она практически повторяет форму регистрации. Интереснее будет посмотреть на сам процесс логина в файле do_login.php.
+
+do_login.php
+
+<?php
+
+require_once __DIR__.'/boot.php';
+
+// проверяем наличие пользователя с указанным юзернеймом
+$stmt = pdo()->prepare("SELECT * FROM `users` WHERE `username` = :username");
+$stmt->execute(['username' => $_POST['username']]);
+if (!$stmt->rowCount()) {
+    flash('Пользователь с такими данными не зарегистрирован');
+    header('Location: login.php');
+    die;
+}
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// проверяем пароль
+if (password_verify($_POST['password'], $user['password'])) {
+    // Проверяем, не нужно ли использовать более новый алгоритм
+    // или другую алгоритмическую стоимость
+    // Например, если вы поменяете опции хеширования
+    if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
+        $newHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $stmt = pdo()->prepare('UPDATE `users` SET `password` = :password WHERE `username` = :username');
+        $stmt->execute([
+            'username' => $_POST['username'],
+            'password' => $newHash,
+        ]);
+    }
+    $_SESSION['user_id'] = $user['id'];
+    header('Location: /');
+    die;
+}
+
+flash('Пароль неверен');
+header('Location: login.php');
+Здесь есть важный момент. Мы не запрашиваем пользователя из таблицы по паре username/password, а используем только username. Дело в том, что даже если вы захешируете пришедший из формы логина пароль и попробуете сравнить новый хеш с сохранённым в базе, вы ничего не получите. Password_hash() использует автоматически генерируемую соль для паролей и хеши будут всегда получаться разные. Вот результат функции password_hash, вызванной несколько раз для пароля "123":
+
+$2y$10$loqucup11.3DL1fgDWanoettFpFJuFFd0fY6BZyiP698ZqvA4tmuy
+$2y$10$.LF3OzmQRtJvuZZWeWF.2u80x3ls6OEAU5J9gLHDtcYrFzJkRRPvq
+$2y$10$iGj/nOCavShd2vbMZTC4GOMYCqDj2YSc8qWoeqjVbD1xaKU2CgAfi
+Именно поэтому необходимо использовать функцию password_verify для проверки пароля. Кроме того, данная функция использует специальный алгоритм проверки и является безопасной для атак по времени.
+
+Также хорошо будет проверить пароль на необходимость обновления хеша, в случае, если в проекте вы измените алгоритм хеширования или его опции.
+
+В случае успешного логина мы сохраним идентификатор пользователя в сессии, и отправим его обратно на главную страницу.
+
+Для проверки того факта, что пользователь залогинен, нужно будет проверить наличие данного идентификатора в сессии. Мы для удобства напишем функцию-помощник и разместим ее в том же файле boot.php.
+
+function check_auth(): bool
+{
+    return !!($_SESSION['user_id'] ?? false);
+}
+Теперь можем добавить проверки и изменить вывод на главной странице, если пользователь аутентифицирован.
+
+<?php
+require_once __DIR__.'/boot.php';
+
+$user = null;
+
+if (check_auth()) {
+    // Получим данные пользователя по сохранённому идентификатору
+    $stmt = pdo()->prepare("SELECT * FROM `users` WHERE `id` = :id");
+    $stmt->execute(['id' => $_SESSION['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+?>
+<?php if ($user) { ?>
+
+    <h1>Welcome back, <?=htmlspecialchars($user['username'])?>!</h1>
+
+    <form class="mt-5" method="post" action="do_logout.php">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+
+<?php } else { ?>
+
+    <h1 class="mb-5">Registration</h1>
+
+    <?php flash(); ?>
+
+    <form method="post" action="do_register.php">
+        <!-- ... -->
+    </form>
+
+<?php } ?>
+А также закрыть доступ к форме логина, если пользователь уже вошёл:
+
+login.php
+
+<?php
+
+require_once __DIR__.'/boot.php';
+
+if (check_auth()) {
+    header('Location: /');
+    die;
+}
+?>
+<!-- Далее форма логина -->
+Осталось добавить возможность "выйти". Форму для выхода вы можете видеть в коде выше. Сама процедура выхода простейшая, и заключается в очистке сессии.
+
+<?php
+
+require_once __DIR__.'/boot.php';
+
+$_SESSION['user_id'] = null;
+header('Location: /');
+Заключение
+Итого:
+
+Используем PDO/MySQLi и подготовленные запросы для работы с базой данных.
+
+В базе данных обязательно храним только хеш пароля.
+
+Для хеширования пароля используем специальную функцию password_hash.
+
+Для проверки пароля не делаем сравнение хешей, а используем специальную функцию password_verify.
+
+Полный код примера доступен на гитхабе: ссылка на Github.
+
+Теги: аутентификацияавторизацияphp
+Хабы: PHP

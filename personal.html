@@ -1,0 +1,215 @@
+
+<?php //echo"$meta";
+	$titl = "ПЕРСОНАЛ";
+	include "head.html";
+	
+		$dobav=$_POST["dobav"];
+		$ceh=$_POST["ceh"];
+if ($dobav =="ok2"){
+	
+	//новый раздел -------------------------------------------
+		//получаем POST
+			foreach ($_POST as $ArrStr){
+                $mass[] = $ArrStr; //здесь по строкам данные из POST
+	        };
+		//print_r ($mass); echo "<br>";
+		//print_r ($keymas);
+		//------------------------
+		
+		
+		
+		
+		//массив персонала из POST 
+			$n_ar2 = 0;
+			for($n_ar1=0; $n_ar1 < count($mass); $n_ar1++){
+				$mass[$n_ar1] = trim("$mass[$n_ar1]");
+				//echo("$mass[$n_ar1]<br>");
+				if($n_ar2 < 6){
+					if($n_ar2 ==0){
+						$tn = $mass[$n_ar1+5];
+//						echo("tn=$tn<br>");
+					}
+					if($tn !=""){
+						$mass2[$tn] = "$mass2[$tn]$mass[$n_ar1];"; //создаём массив с ключами из таб.номеров
+					}
+					$n_ar2++;
+				}else{
+					if($tn !=""){
+						$mass2[$tn] = "$mass2[$tn]$mass[$n_ar1];"; //концовка в массив с ключами из таб.номеров
+					}else{
+						unset($mass2[$tn]);
+					}
+					$n_ar2=0;
+				}
+			}
+			unset($str_one_pers);
+			//проверка:
+			/*echo("<br>");
+			print_r($mass2);
+			echo("<br>");*/
+			$ArrKey2 = array_keys($mass2);//выбираем ключи из массива
+//			print_r($ArrKey2);
+//			echo("<br>");
+		//------------------------
+		
+		
+		
+		
+		//массив персонала из старого файла
+			$personal_ceha = file("./$di/$ech/$ceh/pers.csv");
+//			echo("<br>personal_ceha old<br>");
+			for($n_ar1=0; $n_ar1 < count($personal_ceha); $n_ar1++){
+				//echo("$personal_ceha[$n_ar1]<br>");
+				$one_man = explode(";", "$personal_ceha[$n_ar1]");
+				$tn = $one_man[5];
+				$mass3[$tn]=$personal_ceha[$n_ar1];
+			}
+			$ArrKey3 = array_keys($mass3);//выбираем ключи из массива
+			foreach($mass3 as $p_c){
+				//echo("$p_c<br>");
+			}
+			//echo("key<br>");
+			//print_r($ArrKey3);
+			//echo("<br>");
+		//------------------------
+		
+		
+		
+		
+		//пишем ЛОГ
+			
+		//------------------------
+		
+		
+		
+		
+		//производим замену--------
+			unset($tn);
+			foreach($ArrKey2 as $tn){// ДОБАВЛЕНИЕ -------------------------------------------
+				
+				$tn = trim("$tn");
+				
+				/*if($mass3[$tn]==""){
+					echo("Введён новый сотрудник с т.н.= $tn <br>
+					Добавляем: $mass2[$tn]<br>");
+					
+					
+					//добавим данные в график
+					$date = date('m.Y');
+					$filename = "./$di/$ech/$ceh/graf_$date.csv";
+					$file = fopen("$filename","a+");
+						if (flock($file, LOCK_EX)) { // выполняем эксклюзивную блокировку
+							$string = "$tn||||||||||||||||||||||||||||||||";
+							fputs ($file,"$string");
+						}else{
+							echo "<br>Не удалось получить блокировку файла графика !<br>";
+						}
+					fclose ($file);
+				}*/
+			}
+			unset($tn);
+			foreach($ArrKey3 as $tn){//  УДАЛЕНИЕ ---------------------------------------------
+				if($mass2[$tn]==""){
+//					echo("Удаление сотрудника с т.н.= $tn <br>Удаляем: $mass3[$tn]<br>");
+					
+					//СТРОКУ ПРО удалённого в отдельный файл
+					$dirf="./$di/$ech/$ceh/persudal.csv";
+					$file = fopen("$dirf","a+");
+					if (flock($file, LOCK_EX)) { // выполняем эксклюзивную блокировку
+						fputs ($file,"$mass3[$tn]");
+					}else{
+						echo "<br>Не удалось получить блокировку файла persudal!<br>";
+					}
+					fclose ($file);	
+				}
+			}
+			//СОХРАНЯЕМ файл с сотрудниками ----------------
+					$filename = "./$di/$ech/$ceh/pers.csv";
+					$file = fopen("$filename","w+");
+						if (flock($file, LOCK_EX)) { // выполняем эксклюзивную блокировку
+							//заполняем строки
+							foreach($mass2 as $string){
+								fputs ($file,"$string\r\n");
+								//echo("Добавили: $string<br>");
+							}
+						}else{
+							echo "<br>Не удалось получить блокировку файла персонала !<br>";
+						}
+					fclose ($file);
+		//-------------------------
+		
+		
+		
+		
+	//новый раздел -------------------------------------------
+	
+	
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	$redact=$_POST["redact"];
+	$uvolen=$_POST["uvolen"];
+
+	$dolznost=$_POST["dolznost"];
+	$fio=$_POST["fio"];
+	$fiolarge=$_POST["fiolarge"];
+	$tabnumber=$_POST["tabnumber"];
+
+
+
+
+	if ($ceh !=""){
+		include("personal_new.php");
+	}else{
+		//Читаем папку ЭЧ
+		//получаем список файлов каталога
+		unset ($dirs);
+		$dir = "./$di/$ech/";
+		if (file_exists($dir)){
+			$dir = opendir ("$dir");
+			while ( $file = readdir ($dir)){
+					if (( $file != ".") && ($file != "..")){
+						$dirs[] = $file;
+						$n_cehov++;
+					};
+			};
+			closedir ($dir);
+			 //sort ($dirs);
+			 //print_r ($dirs);
+			 //echo "</br>! Всего $n_cehov цехов !</br>";// возвращаем число папок
+		};
+		
+		
+		
+		
+		//выводим кнопки выбора цеха
+		echo "<table><tr>";
+		for ($i=0;$i < count($dirs); $i++){
+			unset ($cehrus, $ceh);
+			$ceh = "$dirs[$i]";
+			include "cehrename.php";
+			echo "<td align='center'>
+			<form method='post' action='personal.html'>
+			<INPUT TYPE=hidden NAME='ceh' VALUE='$ceh'>
+			<INPUT class='green goodbutton' TYPE=submit VALUE='$cehrus'>  
+			</form></td>
+			";
+			if ($n > 7){
+				echo "</tr><tr>";
+				$n=0;
+			}else{$n++;};
+		};
+		echo "</tr></table>";
+	};
+	
+	
+	
+?>
+

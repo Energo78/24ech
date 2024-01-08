@@ -1,0 +1,66 @@
+<?php
+ini_set('display_errors',1);
+Error_Reporting(E_ALL & ~E_NOTICE);
+
+
+
+$echvibor=$_POST["echvibor"];
+	//echo "ЭЧ выбор: $echvibor !!!";
+if($echvibor !=""){
+	setcookie ("ech", "$echvibor");
+//	setcookie ("echv", "$echvibor");
+	$ech = ($_COOKIE[ech]);
+	//echo "$ech";
+};
+
+
+
+$titl = "ГЛАВНАЯ";
+include "head.html";
+
+//читаем папку дирекции
+			//получаем список файлов каталога
+			$dir = "./$di/";
+			unset ($dirs, $n_cehov);
+			if (file_exists($dir)){
+				$dir = opendir ("$dir");
+				while ( $file = readdir ($dir)){
+						if (( $file != ".") && ($file != "..")){
+							$dirs[] = $file;
+							$n_cehov++;
+						};
+				};
+				closedir ($dir);
+				//print_r ($dirs);
+				echo "<html><head></head><body>
+				</br>Всего $n_cehov ЭЧ подключены к программе !</br>
+				Активно: $echrus</br>
+				Выбрать ЭЧ:<br>";// возвращаем число папок
+			};
+			//выводим кнопки выбора ЭЧ
+			echo "<table><tr>";
+			for ($i=0;$i < count($dirs); $i++){
+				//unset ($cehrus, $ceh);
+				$ech = "$dirs[$i]";
+				$echrus = str_replace("ech","ЭЧ-",$ech);
+				if($ech =="ntel"){
+					$echrus ="НТЭЛ";
+				}
+				echo "<td align='center'>
+				<form method='post' action='index.html'>
+				<INPUT TYPE=hidden NAME='echvibor' VALUE='$ech'>
+				<INPUT class='green goodbutton' TYPE=submit VALUE='$echrus'>  
+				</form></td>
+				";
+				if ($n > 7){
+					echo "</tr><tr>";
+					$n=0;
+				}else{$n++;};
+			};
+			echo "</tr></table>";
+
+
+?>
+
+</body>
+</html>

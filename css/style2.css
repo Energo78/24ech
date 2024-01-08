@@ -1,0 +1,23 @@
+@charset "windows-1251";
+.tabler {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+#warper{
+
+}
+
+#warper table{
+	width: 60%;
+	align: center;
+	border-collapse: collapse;
+	text-align: center;
+	vertical-align: center;
+}
+#warper tr {
+	vertical-align: center;
+}
+#warper td {
+	border: 1px solid #000000;
+	text-align: center;
+	vertical-align: justify;
+}

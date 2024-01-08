@@ -1,0 +1,110 @@
+﻿Прртоылоыр
+
+<?php
+
+//Здесь сложу скрипты для сайта
+
+
+//функция чтения каталога
+function getfolder ($dir){
+	unset ($dirs);
+	if (file_exists($dir)){
+		$dir = opendir ("$dir");
+		while ( $file = readdir ($dir)){
+				if (( $file != ".") && ($file != "..")){
+					$dirs[] = $file;
+				};
+		};
+		closedir ($dir);
+		return($dirs);
+	};
+};
+
+
+
+//читаем папку дирекции//получаем список файлов каталога
+	$dir = "./$di/";
+	unset ($dirs, $n_cehov);
+	if (file_exists($dir)){
+		$dir = opendir ("$dir");
+		while ( $file = readdir ($dir)){
+				if (( $file != ".") && ($file != "..")){
+					$dirs[] = $file;
+					$n_cehov++;
+				};
+		};
+		closedir ($dir);
+		//print_r ($dirs);
+		echo "<html><head></head><body>
+		</br>Всего $n_cehov ЭЧ подключены к программе !</br>
+		Активно: $echrus</br>
+		Выбрать ЭЧ:<br>";// возвращаем число папок
+	};
+
+
+// ЭТО ДЛЯ ПОЛУЧЕНИЯ ВСЕХ ФАЙЛОВ ПО ВСЕМ ЦЕХАМ НА ЗАДАННУЮ ДАТУ !!! ---- =+++ )))) 
+//	есть: эч, дата 
+//	формируем даты и массив цехов
+	include ('date_functions.php');
+	include "ceha.php";//$dirs - массив с цехами
+	
+	foreach($dirs as $ceh_op2){
+		$dir = "./$di/$ech/$ceh_op2/$year/$mesday/";
+		//echo("dir = $dir -!</br>");
+		if (file_exists($dir)) {
+			$dir = opendir ("$dir");
+			while ( $file = readdir ($dir))
+			{
+					if (( $file != ".") && ($file != ".."))
+					{
+							if ($file != "eche.csv")
+							{
+									$filsr[] = $file;	
+									$n++;
+							};
+					};
+			};
+			closedir ($dir);
+			// print_r ($filsr);
+	}
+	
+	// --------------------------------------------------------------------------
+	
+	// ДАННЫЕ ИЗ ПОСТ +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
+	foreach ($_POST as $ArrKey => $ArrStr){
+                $mass[] = $ArrStr; //здесь по строкам данные из POST
+                $keymas[] = $ArrKey;
+        };
+	
+	
+	
+
+// Блокировка файла и запись ----------------------------------------------------	
+	$file =  fopen ("./$di/$ech/$ceh/archives/$year$mes.csv","a+");
+		if (flock($file, LOCK_EX)) { // выполняем эксклюзивную блокировку
+		
+			fputs ($file,"Содержание файла:\r\n $stroka \r\n");	
+		}else{
+			echo "Не удалось получить блокировку файла базы данных !<br>
+					Вернитесь назад для повтороной отправки формы.<br>";
+				}
+	flock($file, LOCK_UN);
+	fclose ($file);
+// ------------------------------------------------------------------------------
+
+
+//выпадающий список с возможностью ввода =--------------------------------
+<input type='text' size='16' list='dejurstvo' name='dezurstvo_mash_$i'/><datalist id='dejurstvo'>
+	<option value='на рабочем месте'><option value='на дому'><option value='без дежурства'></datalist>
+
+placeholder=''
+
+
+
+//ИЗМЕНЕНИЕ КОДИРОВКИ СТРОКИ ---------------------------------
+$string_utf = iconv("windows-1251//IGNORE", "utf-8//IGNORE", $string);
+//-----------------------------------------------------------
+
+?>
+

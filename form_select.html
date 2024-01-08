@@ -1,0 +1,71 @@
+<html>
+	
+	<?php
+		$titl = "SELECT";
+		include "head.html";
+	?>
+	
+	<body>
+		<?php
+			  $tk_array = file("techkards.csv");
+	
+	$n_tk = 0;
+	foreach ($tk_array as $TK_Str){
+//		echo("$TK_Str<br>");
+		$tk_mas2 = explode(";","$TK_Str");
+		$tk_mas10 = $tk_mas2[0];
+		//$tk_key[$n_tk] = $tk_mas2[1];
+		$tk_mas[$tk_mas10][$n_tk] = "$tk_mas2[1]&nbsp;$tk_mas2[2]";
+		$tk = $tk_mas[$tk_mas10][$n_tk];
+		//echo("$tk<br>");
+		
+		$n_tk++;
+	}
+		?>
+		
+	
+
+	<?php
+		
+		$tk_array_key = array_keys($tk_mas);
+		print_r	($tk_array_key);
+	?>
+	
+	
+	<form name='frm' action='' method='post' >
+<select name='m1' onChange='document.frm.submit();' >
+	<option value='<?   if($_POST['m1']!=''){ echo $_POST['m1'];}?>'><?   if($_POST['m1']!=''){ echo $_POST['m1'];}?></option>
+  <?php
+  	foreach ($tk_array_key as $tk_key){
+		echo("$tk_key<option>");
+	}
+  ?>
+</select>
+
+<select name='m2' onChange=''>
+
+<?
+foreach($tk_array_key as $tk_key){
+switch($_POST['m1']){
+	case'':
+	break;
+	
+		case'$tk_key':
+			for($i=0;$i<10;$i++){
+				echo "<option  value= ''.$i.' '>'.$i.'</option>";
+			}
+	
+
+	break;
+}
+}		
+?>
+</select>
+</form>
+
+	</body>
+	
+	
+
+</html>
+

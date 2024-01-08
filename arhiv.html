@@ -1,0 +1,31 @@
+<?php
+	include "ip.php";
+	include "head.html";
+?>
+
+
+                <table align=center>
+<form method="post" action="otchet_2.php">
+        <tr border=1>
+                <td width="80%" valign="top">
+                <?php
+                        $d1 = date("d.m.Y");
+                ?>
+      <font size="4">Отчёт для ЭЧЦ:(с 09.2015г.)&nbsp;&nbsp;&nbsp;<INPUT type=text class=bg name="Dateold" value ="<?php echo "$d1";?>">
+                <IMG id="DATE1Trigger" src="K.files/calend.gif" style="cursor:hand">
+                <SCRIPT type=text/javascript>
+                                Calendar.setup({
+                                inputField : "Dateold", // ID of the input field
+                                ifFormat   : "%d.%m.%Y", // the date format
+                                button     : "DATE1Trigger", // ID of the button
+                                showsTime  : true,
+                                timeFormat :24
+                                });
+                </SCRIPT>
+                        (<INPUT TYPE=checkbox NAME='otmeny'>показать отмены)                  <INPUT TYPE=submit NAME=button1 VALUE="СМОТРЕТЬ ОТЧЁТ">                        </form>
+</td>
+                <td width="60%" valign="top">
+
+</td>
+</tr>
+</table>

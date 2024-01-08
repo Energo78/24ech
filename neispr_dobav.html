@@ -1,0 +1,32 @@
+<?php
+include "neispr.php";
+include "config.php";
+//echo "<br>";
+?>
+<table align = center border = 1>
+<tr><td>№</td><td>Место</td><td>Объект</td><td>Неисправность</td><td>Дата начала</td><td>Отметка об<br>устранении</td><td>Ответственные<br>(Кому передана<br>информация<br>о неисправности)</td><td>Ставим галочку,<br>если информация<br>передана<br>в службу Э</td></tr>
+
+<tr><td><form method=post action=neispr_dobav.php><INPUT TYPE=text NAME='i' VALUE='' size=3></td><td>
+<SELECT NAME=stanc>
+<OPTION>
+<?php
+echo "$kontr_punct";
+?>
+</td>
+ <td><textarea rows=3 name=obekt cols=10></textarea></td>
+ <td><textarea rows=4 name=neispr cols=40></textarea></td>
+ <td><textarea rows=4 cols=10 name=date1></textarea></td>
+ <td><textarea rows=4 cols=10 name=date2></textarea></td>
+ <td>
+ <textarea rows=4 cols=10 name=otv></textarea>
+</td>
+ <td>
+ <INPUT TYPE=checkbox NAME=slujba>
+ </td>
+ </tr>
+ </table>
+ <table align = center border = 0><tr><td>
+<INPUT TYPE=submit VALUE='СОХРАНИТЬ'> 
+ </form>
+</td></tr></table>
+ <br>

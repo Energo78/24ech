@@ -1,0 +1,28 @@
+
+<script>
+	function eu83_svet(){
+
+		var eu83svet_value = document.getElementById("eu83svet_value").value;
+	
+		if(eu83svet_value ==""){
+			document.getElementById("eu83svet_value").value = "on";
+			document.getElementById("eu83svet_img").innerHTML = "<img width='96' src='../img/svet.jpg'/>";
+		}else{
+			document.getElementById("eu83svet_value").value = "";
+			document.getElementById("eu83svet_img").innerHTML = "";
+		}
+	
+	}
+</script>
+
+<!--
+<img src='../img/image01.png' width='35' />
+-->
+<button  type='button' onclick='eu83_svet()'>Освещение</button>
+<br/>
+
+
+
+
+
+

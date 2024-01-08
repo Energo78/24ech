@@ -1,0 +1,158 @@
+<?php
+	//1. запрос и проверка куки - если есть сохраняем эч и цех
+
+	include "ipv.php";
+
+	if ($ech=="" or $di==""){
+		include "ip.php";
+	}
+
+	if ($ech=="" or $di==""){
+		include "login.html";
+		exit;
+	}
+	include "config.php";
+
+	include "ceha.php";
+
+?>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+
+<link rel="stylesheet" href="css/style.css">
+
+<title>
+        <?php
+			echo "$titl";
+        ?>
+</title>
+
+<script src="calendar_ru.js" type="text/javascript"></script>
+<script language="JavaScript">
+<!--
+function FP_swapImg() {//v1.0
+ var doc=document,args=arguments,elm,n; doc.$imgSwaps=new Array(); for(n=2; n<args.length;
+ n+=2) { elm=FP_getObjectByID(args[n]); if(elm) { doc.$imgSwaps[doc.$imgSwaps.length]=elm;
+ elm.$src=elm.src; elm.src=args[n+1]; } }
+}
+
+function FP_preloadImgs() {//v1.0
+ var d=document,a=arguments; if(!d.FP_imgs) d.FP_imgs=new Array();
+ for(var i=0; i<a.length; i++) { d.FP_imgs[i]=new Image; d.FP_imgs[i].src=a[i]; }
+}
+
+function FP_getObjectByID(id,o) {//v1.0
+ var c,el,els,f,m,n; if(!o)o=document; if(o.getElementById) el=o.getElementById(id);
+ else if(o.layers) c=o.layers; else if(o.all) el=o.all[id]; if(el) return el;
+ if(o.id==id || o.name==id) return o; if(o.childNodes) c=o.childNodes; if(c)
+ for(n=0; n<c.length; n++) { el=FP_getObjectByID(id,c[n]); if(el) return el; }
+ f=o.forms; if(f) for(n=0; n<f.length; n++) { els=f[n].elements;
+ for(m=0; m<els.length; m++){ el=FP_getObjectByID(id,els[n]); if(el) return el; } }
+ return null;
+}
+// -->
+</script>
+
+
+
+</head>
+
+<body background="fon.jpg">
+
+<div id='menu_container'>
+	<div id='menu_container_in1'>
+
+	</div>
+	<div id='menu_container_in2'>
+<p align="center">
+<a href="personal.html" class='blue goodbutton'>ПЕРСОНАЛ</a>
+<a href="arm_grafic.php" class='blue goodbutton'>ГРАФИК</a>
+<a href="arm_nach_ceh.php" class='blue goodbutton'>ПЛАНИРОВАНИЕ</a>
+<?php
+	$neispravnosti ="<a href='form_zamech.php' class='blue goodbutton'>НЕИСПРАВНОСТИ ТУ-ДУ</a>&nbsp<a href='neispr.php' class='blue goodbutton'>НЕИСПРАВНОСТИ</a>&nbsp<a href='eu83.php' class='blue goodbutton'>ЭУ-83</a>";
+	if ($ip == "10.43.245.159"){$neispravnosti="";};//Герасимов
+	echo "$neispravnosti";
+?>
+&nbsp
+<?php
+	//if ($rukovoditel==1){
+		//echo "<a href='vector32.php' class='blue goodbutton'>ВЕКТОР32</a>";
+		//}
+?>
+<a href="lean.php" class='blue goodbutton'>СТЕНД Б.П.</a>
+</p><p align='center'>
+<a href="telefons.php" class='blue goodbutton'>СПРАВОЧНИК</a>
+<?php
+	if ($di=="di_01" and $ech=="ech01"){
+		echo "<a href='otchet_okn1.php' class='blue goodbutton'>ОКНА</a>
+		<a href='omechk.php' class='red goodbutton'>Опасные Места</a>
+		<!--<a href='arhiv.html' class='blue goodbutton'>АРХИВ</a>-->";
+	};
+?>
+<!-- <a href="ksot_zamech.php" class='blue goodbutton'>КСОТ-П</a> -->
+
+<a href="doc.php" class='blue goodbutton'>ДОКУМЕНТАЦИЯ</a>
+<a href='i.html' class='blue goodbutton'>ОТЧЁТЫ</a>
+<a href="zamechaniya.php" class='green goodbutton'>ЗАМЕЧАНИЯ ВИКС</a>
+<a href="about.html" class='blue goodbutton'>О ПРОГРАММЕ</a>
+<a href='video.php' class='green goodbutton'>ВИДЕО</a>
+<?php
+	if ($rukovoditel==1){
+		echo "<a href='viborech.php' class='blue goodbutton'>Выбрать ЭЧ($echrus)</a>";
+	};
+	if ($di=="di_01" and $ech=="ech01"){
+		echo "";
+	};
+?>
+&nbsp
+
+</p>
+	</div>
+	<div id='menu_container_in1'>
+	<?php
+		$echrus=str_replace("ech","ЭЧ-",$ech);
+		$echrus=str_replace("ntel","НТЭЛ",$ech);
+		echo("<p>ЭЧ: $echrus<br>
+		Пользователь: $fiov<br>
+		IP = $ipv<br>
+		</p>
+		");
+	?>
+	</div>
+</div>
+
+
+<div id='contdat'>
+	<script src='js/calendar_ru.js' type='text/javascript'></script>
+	<table><tr><td>
+	<form method='post' action='otchet_pers.php'>
+	<!--Новый отчёт (с 01 мая 2016, ранее смотри раздел АРХИВ)</br>-->
+	<big>Выберите дату:</big>
+	<input name='date' type='text' value='' size='10' onfocus='this.select();lcs(this)'onclick='event.cancelBubble=true;this.select();lcs(this)'>
+	<INPUT TYPE=checkbox NAME='kratko'> кратко 
+	<INPUT TYPE=submit NAME=button1 VALUE='Отчёт по ЭЧ'>
+	</form></td>
+	<td>
+	<form method='post' action='i.html'>
+	<INPUT TYPE=hidden NAME='filtr' VALUE='ok'> 
+	<INPUT TYPE=submit NAME=button2 VALUE='С фильтром'>
+	</form></td></tr></table><table><tr><td>
+<?php 
+	//echo"<form method='post' action='otchet_mes.php'>Отчёт за месяц:
+		//	<big>цех:</big>
+			//<SELECT name='cehrus'><option>$cehrus<option>$ceha</select>
+//			<big>месяц:</big>
+	//		<SELECT name='mes'>$mesyachs</select> год:<SELECT name='year'>$years</select>
+		//	<INPUT TYPE=hidden NAME='filtr2' VALUE='ok'>
+		//	<INPUT TYPE=submit NAME=buttonfiltr VALUE='Создать Отчёт'>
+		//	</form>
+		//	";
+$menuis=1;
+		?>
+	</td></tr></table>
+	
+</div>
+
+</div>

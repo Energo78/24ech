@@ -1,0 +1,125 @@
+<?php
+include "head.html";
+?>
+
+<TABLE border=0 align=center width="100%">
+<tr><td colspan="2" align="center">
+<br><u><b><i><font color="#0000FF" size="4">Форма ввода работы в &quot;окно&quot;:<br><br></font></i></b></u>
+</td></tr>
+    <form method="post" action="win_dataput.php">
+	<Tr>
+		<td width="40%" valign="top">
+      <font size="4">Дата:
+		<INPUT type=text class=bg name="Date3">
+		<IMG id="DATE3Trigger" src="K.files/calend.gif" style="cursor:hand">
+		<SCRIPT type=text/javascript>
+				Calendar.setup({
+				inputField : "Date3", // ID of the input field
+				ifFormat   : "%d.%m.%Y", // the date format
+				button     : "DATE3Trigger", // ID of the button
+				showsTime  : true,
+				timeFormat :24
+				});	
+			</SCRIPT>
+    	&nbsp;<span lang="ru">&nbsp;&nbsp;&nbsp; ЭЧК№
+	<SELECT NAME="echknum">
+<OPTION><OPTION>8<OPTION>9<OPTION>10<OPTION>11<OPTION>31<OPTION>12<OPTION>13<OPTION>14<OPTION>15<OPTION>16<OPTION>30</span></font><p></TD>
+<td width="60%">
+<font size="4">
+&nbsp;<span lang="ru">Наряд № </span>
+<INPUT type=text name="narnum" size="8"><span lang="ru"> 	
+	</span>
+    	</font>
+<p><font size="4">
+    	&nbsp;<span lang="ru">Производитель работ:
+<SELECT NAME="proizvod">
+<OPTION>
+<?php
+include "config.php";
+echo "$proizvoditeli";
+?>
+	</span>
+    	</font></select> <font size="4">
+    	<span lang="ru"><br><br>&nbsp;Техника:
+<SELECT name="technica">
+<OPTION><OPTION>АДМ-746<OPTION>АДМ-1287<OPTION>АДМ-1124<OPTION>АДМ-791<OPTION>АДМ-1172<OPTION>АДМ-823<OPTION>АДМ-038<OPTION>АДМ-1353<OPTION>АДМ-658<OPTION>АДМ-800<OPTION>АДМ-1565<OPTION>АДМ-1083<OPTION>Лейтер<OPTION>Лестница<OPTION>
+	</span>
+    	</font></select></p>
+<p>&nbsp;</TD>
+	</tr>
+	<tr>
+	<td width="100%" colspan="2">
+	<font size="4">Начало работы (план):&nbsp;&nbsp;
+	<INPUT type=text name="time1" size="2">
+	<b>: </b>
+	<INPUT type=text name="time2" size="2">
+	(час.:мин.). Конец работы:&nbsp;&nbsp;
+	<INPUT type=text name="time3" size="2">
+	<b>: </b>
+	<INPUT type=text name="time4" size="2"> (час.мин.)</font><p>&nbsp;</TD>
+	</tr>
+	<tr>
+	<td width="100%" colspan="2">
+	<font size="4">Начало работы (факт):&nbsp;&nbsp;
+	<INPUT type=text name="time5" size="2">
+	<b>: </b>
+	<INPUT type=text name="time6" size="2">
+	(час.:мин.). Конец работы:&nbsp;&nbsp;
+	<INPUT type=text name="time7" size="2">
+	<b>: </b>
+	<INPUT type=text name="time8" size="2"> (час.мин.)</font><p>&nbsp;</TD>
+	</tr>
+	<tr>
+		<td width="40%" valign="top">
+			<font size="4">&nbsp; Место
+			работы:<br> <span lang="ru">
+	&nbsp;</span> <span lang="ru">
+	<SELECT NAME="peregon">
+<OPTION>
+
+<?php
+echo "$peregons";
+?>
+	
+	</span></font></select><span lang="ru"><font size="4"> путь:</font></span><font size="4"><INPUT type=text name="put1" size="2"><br> <span lang="ru">
+	&nbsp;</span> <span lang="ru">
+	<SELECT NAME="stanc">
+<OPTION>
+<?php
+echo "$stancii";
+?>
+	
+	</span></font></select><font size="4"> <span lang="ru">путь:</span><INPUT type=text name="put2" size="2"></font><p>
+			<span lang="ru"><font size="4">&nbsp; или участок: </font></span>
+	<font size="4">
+	<INPUT type=text name="uchastok" size="66"></font><p>
+			<font size="4">
+			<br><br>
+			</font></td>
+		<td width="60%" valign="top">
+			<p>Произведённая работа:<br><textarea rows="8" name="work" cols="46"></textarea></p>
+			</td>
+	</tr>
+	
+	<tr>
+		<td width="100%" colspan="2">
+			
+		</td>
+	</tr>
+	
+	<tr>
+		<td width="100%" colspan="2">
+			
+		</td>
+	</tr>
+	
+	<tr>
+	<td width="100%" colspan="2">
+	<p align="center"><font size="4">
+	<INPUT TYPE=submit NAME=button1 VALUE="СОХРАНИТЬ!"></font>
+	</form>
+	</td>
+	</tr>
+	</TABLE>
+</body>
+</html>

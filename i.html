@@ -1,0 +1,230 @@
+<?php
+ini_set('display_errors',1);
+Error_Reporting(E_ALL & ~E_NOTICE);
+//инклюдим заголовок, блокировку по ай-пи
+$titl = "ЭЧЦ";
+include "head.html";
+include "config.php";
+
+echo "<br>";
+$d1 = date("d.m.Y");
+include "date_functions.php";
+include "ceha.php";
+
+$checkbokser = "
+	<p style='text-align:left;'>
+	<INPUT TYPE=checkbox NAME='otmeny_on' checked>не показывать отмены
+	</br><INPUT TYPE=checkbox NAME='25'> ОКНА
+	</br><INPUT TYPE=checkbox NAME='12'> Распоряжения
+	</br><INPUT TYPE=checkbox NAME='32'> Текущ.Экспл.
+	</br><INPUT TYPE=checkbox NAME='14'> Работы под напряжением
+	</br><INPUT TYPE=checkbox NAME='30'> Работы на ВЛ АБ, ПЭ, ДПР
+	</br><INPUT TYPE=checkbox NAME='22'> Обходы с осмотром устройств
+	</br><INPUT TYPE=checkbox NAME='23'> Объезды с осмотром устройств
+	</br><INPUT TYPE=checkbox NAME='24'> Объезд с ВИКС
+	</br><INPUT TYPE=checkbox NAME='16'> Обеспечение ЭМП 
+	</br><INPUT TYPE=checkbox NAME='15'> Обеспечение ПЧ-ПМС
+	</br><INPUT TYPE=checkbox NAME='20'> Обеспечение ШЧ
+	</br><INPUT TYPE=checkbox NAME='21'> Обеспечение РЦС
+	</br><INPUT TYPE=checkbox NAME='28'> Обеспечение СМП
+	</br><INPUT TYPE=checkbox NAME='29'> Обеспечение прочих
+	</p>
+	";
+	
+?>
+<div style='clear:both;'></div>
+
+	
+	
+
+
+<div style='clear:both;'></div>
+	<div id='bg1'>
+	
+	
+	
+	
+<!-- ------------------  ОТЧЁТ ЗА МЕСЯЦ ! ---------------------------- -->
+	<div id='cont31'>
+	<p style='text-align:left;'>
+	Отчёт по всем работам по цеху:<br>
+	<form method='post' action='otchet_mes.php'>
+	<big>Выберите цех:</big>
+	<SELECT name='cehrus'><option><?php echo "$cehrus"; ?><option>
+	<?php echo "$ceha";?></select><br><br>
+	<big>Выберите месяц:</big>
+	<SELECT name='mes'><?php echo "$mesyachs"; ?></select> и год:<SELECT name='year'><?php echo"$years"; ?></select><br>
+	<INPUT TYPE=hidden NAME='filtr2' VALUE='ok'>
+	<?php echo "$checkbokser";?>
+	</br><INPUT TYPE=submit VALUE='Создать Отчёт'>
+	</form></p>	
+	</div>	
+	
+	<!-- Отчёт за сутки по ЭЧ ------------*/------------------------------------------------ ***  -->
+	<div id='cont31'>
+	<form method='post' action='otchet_pers.php'>
+	<p style='text-align:left;'>
+	Отчёт за сутки<br>
+	<big>Выберите дату:</big>
+	<input autocomplete='off' name='date' type='text' value='' size='10' onfocus='this.select();lcs(this)'onclick='event.cancelBubble=true;this.select();lcs(this)'>
+	<INPUT TYPE=hidden NAME='filtr' VALUE='ok'>
+	</br><INPUT TYPE=checkbox NAME='podUf'>Работы под напряжением
+	</br><INPUT TYPE=checkbox NAME='rab_VLf'>Работы на ВЛ АБ, ПЭ, ДПР
+	</br><INPUT TYPE=checkbox NAME='obhodf'>Обходы с осмотром устройств
+	</br><INPUT TYPE=checkbox NAME='obezdf'>Объезды с осмотром устройств
+	</br><INPUT TYPE=checkbox NAME='rasporyazheniyaf'>Работы по распоряжению
+	</br><INPUT TYPE=submit NAME=buttonfiltr VALUE='Создать Отчёт'>
+	</form></p>
+	
+	
+	
+	
+	
+	
+<!--  ---------------- ОТЧЁТ ЗА МЕСЯЦ ПО ЭЧ -------------------------  -->
+	
+	<form method='post' action='otchet_mes_2020.php'>
+	<p style='text-align:left;'>
+	<br><br>
+	<HR style="color: #484bb7; background-color:#484bb7; height: 10px;"  WIDTH="80%">
+	<br><br>
+	Отчёт за месяц по ЭЧ:<br>
+	
+	<big>Выберите месяц:</big>
+	<SELECT name='mes'><?php echo "$mesyachs"; ?></select> и год:<SELECT name='year'><?php echo"$years"; ?></select><br>
+		
+	<INPUT TYPE=hidden NAME='filtr' VALUE='ok'>
+	
+	</br><INPUT TYPE=submit NAME=buttonfiltr VALUE='Создать Отчёт'>
+	</form>
+	
+	
+	</div>
+	
+	
+	
+	
+	
+	<!-- -------ФОРМА ВХОДА НА САЙТ ! ------- -->
+	<div id='cont32'></br>
+	СМЕНА ПОЛЬЗОВАТЕЛЯ:
+	<form method='post' action='head.html'>
+		ЛОГИН: <INPUT TYPE=text NAME='login' size='15'><br><br>
+		ПАРОЛЬ: <INPUT TYPE=password NAME='passw' size='15'><br><br>
+		<INPUT class='red goodbutton' TYPE=submit VALUE='ВХОД'>
+	</form>
+	<form method='post' action='i.html'>
+	</br>
+	<INPUT TYPE=hidden NAME='clearcookies' VALUE='on'>
+	<INPUT class='blue goodbutton' TYPE=submit VALUE='ВЫХОД'>
+	</form>
+	</div>
+	
+	
+	
+	
+	
+	
+	<!--<div id='cont31' style='background-color: #3399cc;'>
+	<p style='text-align:left;'>
+	Отчёт за месяц по <?php echo"$echrus";?>:<br>
+	<form method='post' action='otchet_incE.php'>
+	<big>Выберите месяц:</big>
+	<SELECT name='mesyac'><?php echo "$mesyachs"; ?></select> и год:<SELECT name='year'><?php echo"$years"; ?></select><br>
+	</br><INPUT TYPE=submit NAME=buttonfiltr VALUE='Создать Отчёт'>
+	</form>
+	</p>
+	</div>-->
+	
+	
+<!--	----  ФОРМА ЗАЯВКИ ОТ ЭЧЦ ! -------
+	<div id='cont31' style='background-color: #ffff33;'>
+	<p style='text-align:left;'>
+	Заявка в ДЦУП:<br>
+	<form method='post' action='otchet_okna_zayavka.php'>
+	<big>Дата:</big>
+	<input autocomplete='off' name='date' type='text' value='' size='10' onfocus='this.select();lcs(this)'onclick='event.cancelBubble=true;this.select();lcs(this)'>
+	<br><br>
+	Уч-к ДНЦ: <INPUT TYPE=text NAME='circle' size='15' ><br><br>
+	ФИО ЭЧЦ : <INPUT TYPE=text NAME='fio' size='15' ></br><br>
+	<INPUT TYPE=submit NAME=buttonfiltr VALUE='Создать Заявку'>
+	</form></p>
+	</div>
+	-->
+	
+	</div>
+	
+
+	
+	
+	
+	
+	
+
+	<div style='clear:both;'></div>
+	</br>
+	<div id='bg1'>
+	
+	
+	
+
+	
+	</div>
+
+
+
+<div style='clear:both;'></div>
+	<div id='bg1'>
+		
+	<!-- ------------------  ОТЧЁТ ЗА ДЕНЬ ! ---------------------------------------------- -->
+		
+		<!--<form method='post' action='otchet_pers2.php'>
+		<div id='cont33'>
+			<div style="float: left; margin-left: 10px;">
+	
+	<p style='text-align:left;'>
+	<big>Выберите дату:</big>
+	<INPUT TYPE=hidden NAME='otchet_v1' VALUE='ok'>
+	<input autocomplete='off' name='date_otchet_v1' type='text' value='' size='10' onfocus='this.select();lcs(this)'onclick='event.cancelBubble=true;this.select();lcs(this)'>
+	
+	<!--<br /><br /><big>Выберите цех:</big>
+	<SELECT name='cehrus'><option><?php echo "$cehrus"; ?><option>
+	<?php echo "$ceha";?></select><br>-->
+	
+	<!--
+	</br><br /><INPUT TYPE=checkbox NAME='otmeny_on' checked>не показывать отмены
+	-->
+	<!--
+	
+	<br><br />
+	<big>Выберите месяц:</big><br>(если указана определённая дата,<br>то выбирать месяц и год не надо)<br><br />
+	<SELECT name='mes'><?php echo "$mesyachs"; ?></select> и год:<SELECT name='year'><?php echo"$years"; ?></select><br>
+	
+	-->
+
+	<!-- </p>
+			</div>
+		
+			<div style="float: left; margin-left: 10px;">
+					
+	<p style='text-align:left;'>
+		<?php echo "$checkbokser";?>
+	</br></br><INPUT TYPE=submit NAME=buttonfiltr VALUE='СОЗДАТЬ ОТЧЁТ'>
+	</p>
+					
+			</div>
+		</div></form>-->
+
+			
+	
+		
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>

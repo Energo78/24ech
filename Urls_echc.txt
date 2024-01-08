@@ -1,0 +1,10 @@
+http://esntd.msk.oao.rzd:9080/navigator/
+http://10.43.161.214/i.html
+http://kasant.gvc.oao.rzd:8888/kasant/
+http://asuvop.gvc.oao.rzd/warnings/PageUI?rnd=0.725483939212414#!oper_journal/Tomorrow
+http://apvo-28.orw.oao.rzd:9080/wnd/jsp_list.jsp
+http://loki.gvc.oao.rzd/maximo/ui/login?welcome=true
+https://sdo.rzd/lms/
+http://akkord-28.orw.oao.rzd:2800/dnc/
+http://rzd-consultant.gvc.oao.rzd/cons/cgi/
+

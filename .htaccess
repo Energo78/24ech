@@ -1,0 +1,29 @@
+# -FrontPage-
+
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+
+<Limit GET POST>
+order deny,allow
+deny from all
+allow from all
+</Limit>
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+
+
+AddDefaultCharset windows-1251
+
+AuthName buy44region.ru
+AuthUserFile /home/buy44r/public_html/_vti_pvt/service.pwd
+AuthGroupFile /home/buy44r/public_html/_vti_pvt/service.grp
+RemoveHandler .html .htm .shtml
+
+AddType application/x-httpd-php .php .html .htm .shtml
+
+AddType x-httpd-php .php .html .htm .shtml
+
+AddHandler cgi-script .html .htm
+
+php_value max_input_vars 2000

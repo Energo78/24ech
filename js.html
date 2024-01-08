@@ -1,0 +1,83 @@
+
+<script>
+function inchange(){
+	var mg = "mg_";
+	var mgf = "mgf_";
+	var sg = "sg_";
+	var sgf = "sgf_";
+	var idmg;
+	var idmgf;
+	var i_fdb = document.getElementById("i_fdb").value;
+	var i = "0";
+	
+	var time = "time1_";
+	var time1;
+	var time2 = "time2_";
+	var hour0;
+	var hour;
+	var minut;
+		
+	for(i = 0; i < i_fdb; i++){
+		
+		idmg = mg+i;
+		idmgf = mgf+i;
+		idsg = sg+i;
+		idsgf = sgf+i;
+		
+		
+		if(!document.getElementById(idmgf)){
+			alert("No");
+		}else{
+			document.getElementById(idmgf).value = document.getElementById(idmg).value;
+			document.getElementById(idsgf).value = document.getElementById(idsg).value;
+		}	
+		
+		
+		
+//		time ------------------------------
+//		таймы закомментил после доработки формы редактирования
+	/*	hour0 = undefined; timex = undefined;
+		var timex = time + i;
+		var time2x = time2 + i;
+		
+		var time1 = document.getElementById(timex).value;
+		var hour0 = time1.split(":");
+		var hour = undefined;
+		var minut = undefined;
+		
+		var hour = hour0[0];
+		var minut = hour0[1];
+		
+		hour = parseInt(hour) + 12;
+
+		
+		if(hour > 23){
+			hour = hour - 24;
+		}
+		
+				
+		var timex2 = hour + ":" + minut;
+		
+		n_t = timex2.length;
+		
+		if(n_t < 5){
+			a = "0";
+			timex2 = a + timex2;
+		}
+		
+		document.getElementById(time2x).value = timex2;*/
+		
+		
+	}
+	
+	
+	
+	}
+</script>
+
+
+<button type='button' onclick='inchange()'>Автозаполнение</button>
+
+
+
+

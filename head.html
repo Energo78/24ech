@@ -1,0 +1,164 @@
+<?php
+	//1. запрос и проверка куки - если есть сохраняем эч и цех
+	$server = $_SERVER["HTTP_HOST"];
+	$id_pc = $_SERVER["DOCUMENT_ROOT"];
+	
+//	echo("server = $server<br/>id_pc=$id_pc<br/>");
+	
+	include("$id_pc/ipv.php");
+
+	if ($ech=="" or $di==""){
+		include("$id_pc/ip.php");
+	}
+
+	if($echv ==""){
+		if ($ech=="" or $di==""){
+			include "$id_pc/login.html";
+			exit;
+		}
+	}
+	
+	include "$id_pc/config.php";
+
+	include "$id_pc/ceha.php";
+	
+	if ($ip ==""){
+		$ip = $_SERVER["REMOTE_ADDR"];
+	}
+	
+		include "$id_pc/log_main.php"; //главный общий лог сайта
+	$head_load_full = 1;
+
+?>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" href='http://<?php echo"$server"; ?>/css/style.css'>
+
+<link rel="stylesheet" href='http://<?php echo"$server"; ?>/style_1.css'>
+<?php		echo "$style_css_now";       ?>
+
+<title>
+        <?php
+			echo "$titl";
+        ?>
+</title>
+
+<script src="calendar_ru.js" type="text/javascript"></script>
+<script language="JavaScript">
+<!--
+function FP_swapImg() {//v1.0
+ var doc=document,args=arguments,elm,n; doc.$imgSwaps=new Array(); for(n=2; n<args.length;
+ n+=2) { elm=FP_getObjectByID(args[n]); if(elm) { doc.$imgSwaps[doc.$imgSwaps.length]=elm;
+ elm.$src=elm.src; elm.src=args[n+1]; } }
+}
+
+function FP_preloadImgs() {//v1.0
+ var d=document,a=arguments; if(!d.FP_imgs) d.FP_imgs=new Array();
+ for(var i=0; i<a.length; i++) { d.FP_imgs[i]=new Image; d.FP_imgs[i].src=a[i]; }
+}
+
+function FP_getObjectByID(id,o) {//v1.0
+ var c,el,els,f,m,n; if(!o)o=document; if(o.getElementById) el=o.getElementById(id);
+ else if(o.layers) c=o.layers; else if(o.all) el=o.all[id]; if(el) return el;
+ if(o.id==id || o.name==id) return o; if(o.childNodes) c=o.childNodes; if(c)
+ for(n=0; n<c.length; n++) { el=FP_getObjectByID(id,c[n]); if(el) return el; }
+ f=o.forms; if(f) for(n=0; n<f.length; n++) { els=f[n].elements;
+ for(m=0; m<els.length; m++){ el=FP_getObjectByID(id,els[n]); if(el) return el; } }
+ return null;
+}
+// -->
+</script>
+
+
+
+</head>
+
+<body background="http://<?php echo"$server"; ?>/fon.jpg">
+
+<div id='menu_container'>
+	<div id='menu_container_in1'>
+		<!--<a href="../telefons.php"><img src="../img/phonebook.png" alt="Справочник" width="75px" /></a>-->
+	</div>
+	<div id='menu_container_in2'>
+<p align="center">
+<a href="../personal.html" class='blue goodbutton'>ПЕРСОНАЛ</a>
+<a href="../arm_grafic.php" class='blue goodbutton'>ГРАФИК</a>
+<a href="../arm_nach_ceh.php" class='blue goodbutton'>ПЛАНИРОВАНИЕ</a>
+<?php
+	$neispravnosti ="<a href='../form_zamech.php' class='blue goodbutton'>НЕИСПРАВНОСТИ ТУ-ДУ</a>&nbsp<a href='../neispr.php' class='blue goodbutton'>НЕИСПРАВНОСТИ</a>&nbsp<a href='../eu83.php' class='blue goodbutton'>ЭУ-83</a>";
+
+	echo "$neispravnosti";
+?>
+&nbsp
+
+<a href="../techkards.php" class='blue goodbutton'>ТЕХКАРТЫ</a>
+</p>
+<p align='center'>
+<a href="../telefons/telefons.php" class='blue goodbutton'>СПРАВОЧНИК</a>
+<?php
+		echo "<a href='../otchet_okn2.php' class='blue goodbutton'>ОКНА</a>
+		<!-- <a href='../omechk.php' class='red goodbutton'>Опасные Места</a> -->
+		<!--<a href='../arhiv.html' class='blue goodbutton'>АРХИВ</a>-->";
+?>
+<!-- <a href="ksot_zamech.php" class='blue goodbutton'>КСОТ-П</a> -->
+<a href="../technic.php" class='blue goodbutton'>ТЕХНИКА</a>
+<a href="../doc.php" class='blue goodbutton'>ДОКУМЕНТАЦИЯ</a>
+<a href='../i.html' class='blue goodbutton'>ОТЧЁТЫ</a>
+<!--<a href="../zamechaniya.php" class='green goodbutton'>ВИКС(АРХИВ)</a>-->
+<a href="../about.html" class='blue goodbutton'>О ПРОГРАММЕ</a>
+<a href='../video.php' class='green goodbutton'>ВИДЕО</a>
+<?php
+	if ($rukovoditel==1){
+		echo "<a href='../viborech.php' class='blue goodbutton'>Выбрать ЭЧ($echrus)</a>";
+	};
+	if ($di=="di_01" and $ech=="ech01"){
+		echo "";
+	};
+?>
+&nbsp
+
+</p>
+	</div>
+	<div id='menu_container_in1'>
+	<?php
+		
+		include("cehrename.php");
+		echo("<p>ЭЧ: $echrus<br> Цех: $cehrus<br>
+		Пользователь: $fiov<br>
+		IP = $ipv<br>
+		</p>");
+		/*echo("<p>ЭЧ: $echrus<br> Цех: $cehrus<br>
+		ech = $ech<br/> 
+		coocie: echv = $echv <br> role = $role<br>
+		Пользователь: $fiov<br>
+		IP = $ipv<br>
+		</p>");*/
+	?>
+	</div>
+</div>
+
+
+<div id='contdat'>
+	<script src='../js/calendar_ru.js' type='text/javascript'></script>
+	<table><tr><td>
+	<form method='post' action='../otchet_pers.php'>
+	<!--Новый отчёт (с 01 мая 2016, ранее смотри раздел АРХИВ)</br>-->
+	<big>Выберите дату:</big>
+	<input autocomplete='off' name='date' type='text' value='' size='10' onfocus='this.select();lcs(this)'onclick='event.cancelBubble=true;this.select();lcs(this)'>
+	<INPUT TYPE=checkbox NAME='kratko'> кратко 
+	<INPUT TYPE=hidden NAME='otchet_ech' VALUE='ok'> 
+	<INPUT TYPE=submit NAME=button1 VALUE='Отчёт по ЭЧ'>
+	</form></td>
+	<td>
+	<form method='post' action='../i.html'>
+	<INPUT TYPE=hidden NAME='filtr' VALUE='ok'> 
+	<INPUT TYPE=submit NAME=button2 VALUE='С фильтром'>
+	</form></td></tr></table><table><tr><td>
+<?php $menuis=1;?>
+
+	</td></tr></table>
+	
+</div>

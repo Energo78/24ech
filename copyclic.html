@@ -1,0 +1,11 @@
+<!-- <input id="one<?php echo'$dop02';?>" type = "text" value = "Значение">
+<input id="two<?php echo'$dop02';?>"type = "text" value = "">
+<input id="go<?php echo'$dop02';?>"type = "button" value = "Скопировать"> -->
+ 
+<script type="text/javascript">
+ 
+document.getElementById("go<?php echo'$dop02';?>").addEventListener("click", function() {
+    document.getElementById("two<?php echo'$dop02';?>").value = document.getElementById("one<?php echo'$dop02';?>").value;
+}, false)
+ 
+</script>

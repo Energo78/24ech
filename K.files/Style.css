@@ -1,0 +1,27 @@
+BODY {
+	BACKGROUND: url(../Im/bg2.gif); MARGIN: 0px
+}
+.form {
+	MARGIN: 100px 0px 0px
+}
+A:hover {
+	BACKGROUND: #ebebeb; COLOR: #ff0000; TEXT-DECORATION: none
+}
+.s {
+	FONT-WEIGHT: bold; COLOR: #ff0000
+}
+A {
+	BACKGROUND: #ffffcc; WIDTH: 100%; COLOR: #000000; HEIGHT: auto; TEXT-DECORATION: none
+}
+.mes {
+	FONT-WEIGHT: bold; FONT-SIZE: 18px; MARGIN: 100px; COLOR: #ff0000; TEXT-DECORATION: underline
+}
+.bg {
+	BACKGROUND: #ccffff
+}
+.bg2 {
+	BACKGROUND: #d4d0c8
+}
+.f {
+	MARGIN-TOP: 3px
+}
